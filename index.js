@@ -11,3 +11,22 @@ function nots(){
     console.log("Not" + not);
 }
 
+var data = {
+    hot: 0,
+    not: 0
+}
+
+const counter = document.getElementsByClassName("hotCount")[0];
+const counterRef = firebase.database().ref("hot_counter");
+counterRef.on("value", (snapshot) => {
+  counter.textContent = snapshot.val();
+});
+
+const incrementButton = document.getElementsByClassName("buttHot")[0];
+incrementButton.addEventListener("click", () => {  
+  counterRef.transaction(val => val + 1, (err) => {
+    if (err) {
+      alert(err);
+    }
+  });
+}, false);
